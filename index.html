@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun Kresna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        h1 {
+            margin-top: 5%;
+            font-size: 60px;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(58, 51, 51, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+            margin-top: -30%; 
+        }
+
+        .slideshow {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide p {
+            font-size: 2em;
+            margin: 20px 0;
+            color : wheat;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            display: none;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 3;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .gift-image {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff; 
+            background-color: #333333; 
+            padding: 10px; 
+            border-radius: 10px; 
+            border: 1px solid #555555; 
+        }
+
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 1px 0;
+            border: 1px solid #7c7979;
+            border-radius: 5px;
+            background-color: #f7f1f1; 
+            color: rgb(153, 144, 144); 
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+    </style>
+
+</head>
+<body>
+    <h1></h1>
+    <div class="container">
+        <div class="slideshow">
+            <div class="slide" id="slide1">
+                <p>Selamat ulang tahun Kresna!</p>
+                <img src="img/img1.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide2">
+                <p>Semoga panjang umur dan sehat selalu!</p>
+                <img src="img/img2.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide3">
+                <p>Semoga dapat menjadi anak yang sholeh dan berbakti kepada orang tua</p>
+                <img src="img/img3.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide6">
+                <p>Semoga kedepannya bisa menjadi pribadi yang lebih baik lagi</p>
+                <img src="img/img6.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide7">
+                <p>Semoga segala keinginanmu tercapai</p>
+                <img src="img/img9.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide8">
+                <p>Jangan lupa untuk selalu tersenyum</p>
+                <img src="img/img8.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide9">
+                <p>Tetap semangat dalam mencapai cita-citamu yaaa...!!!!</p>
+                <img src="img/IMG-20210914-WA0011.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slide10">
+                <p>Happy Level Up Day!!!🥳</p>
+                <img src="img/img7.jpg" class="profile-pic" alt="Profile Picture">
+            </div>
+            <div class="slide" id="slideLast">
+                <p>Ini Hadiahmu!</p>
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/gift.png" class="gift-image" alt="Gift Image" id="giftImage">
+            </div>
+        </div>
+    </div>
+
+    <audio id="birthdaySong" src="img/hbd.mp3" autoplay></audio>
+    
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="giftForm">
+                <p>Hadiahnya wdp mobile legend yaaa.... Tak kirim tanggal 3 Agustus nanti😆</p>
+                <p>Masukin nomor id dan server mu disinii👇👇👇</p>
+                <label for="userId">ID:</label>
+                <input type="text" id="userId" name="userId" required><br><br>
+                <label for="server">Server:</label>
+                <input type="text" id="server" name="server" required><br><br>
+                <button type="submit">Kirim</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var rnd = Math.random, flr = Math.floor;
+        let canvas = document.createElement('canvas');
+
+        document.getElementsByTagName('body')[0].appendChild(canvas);
+        canvas.style.position = 'absolute';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+        let ctx = canvas.getContext('2d');
+
+        function rndNum(num) {
+            return rnd() * num + 1;
+        }
+
+        function vector(x, y) {
+            this.x = x;
+            this.y = y;
+
+            this.add = function (vec2) {
+                this.x = this.x + vec2.x;
+                this.y = this.y + vec2.y;
+            }
+        }
+
+        function particle(pos, vel) {
+            this.pos = new vector(pos.x, pos.y);
+            this.vel = vel;
+            this.finish = false;
+            this.start = 0;
+
+            this.update = function (time) {
+                let timeSpan = time - this.start;
+
+                if (timeSpan > 500) {
+                    this.finish = true;
+                }
+
+                if (!this.finish) {
+                    this.pos.add(this.vel);
+                    this.vel.y = this.vel.y + gravity;
+                }
+            };
+
+            this.draw = function () {
+                if (!this.finish) {
+                    drawDot(this.pos.x, this.pos.y, 1);
+                }
+            }
+        }
+
+        function firework(x, y) {
+            this.pos = new vector(x, y);
+            this.vel = new vector(0, -rndNum(10) - 3);
+            this.color = 'hsl(' + rndNum(360) + ', 100%, 50%)'
+            this.size = 4;
+            this.finish = false;
+            this.start = 0;
+            let exParticles = [], exPLen = 100;
+
+            let rootShow = true;
+
+            this.update = function (time) {
+                if (this.finish) {
+                    return;
+                }
+
+                rootShow = this.vel.y < 0;
+
+                if (rootShow) {
+                    this.pos.add(this.vel);
+                    this.vel.y = this.vel.y + gravity;
+                } else {
+                    if (exParticles.length === 0) {
+                        flash = true;
+                        for (let i = 0; i < exPLen; i++) {
+                            exParticles.push(new particle(this.pos, new vector(-rndNum(10) + 5, -rndNum(10) + 5)));
+                            exParticles[exParticles.length - 1].start = time;
+                        }
+                    }
+                    let countFinish = 0;
+                    for (let i = 0; i < exPLen; i++) {
+                        let p = exParticles[i];
+                        p.update(time);
+                        if (p.finish) {
+                            countFinish++;
+                        }
+                    }
+
+                    if (countFinish === exPLen) {
+                        this.finish = true;
+                    }
+                }
+            }
+
+            this.draw = function () {
+                if (this.finish) {
+                    return;
+                }
+
+                ctx.fillStyle = this.color;
+                if (rootShow) {
+                    drawDot(this.pos.x, this.pos.y, this.size);
+                } else {
+                    for (let i = 0; i < exPLen; i++) {
+                        let p = exParticles[i];
+                        p.draw();
+                    }
+                }
+            }
+        }
+
+        function drawDot(x, y, size) {
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        var fireworks = [],
+            gravity = 0.2,
+            snapTime = 0,
+            flash = false;
+
+        function init() {
+            let numOfFireworks = 20;
+            for (let i = 0; i < numOfFireworks; i++) {
+                fireworks.push(new firework(rndNum(canvas.width), canvas.height));
+            }
+        }
+
+        function update(time) {
+            for (let i = 0, len = fireworks.length; i < len; i++) {
+                let p = fireworks[i];
+                p.update(time);
+            }
+        }
+
+        function draw(time) {
+            update(time);
+
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            if (flash) {
+                flash = false;
+            }
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = 'white';
+            ctx.font = "30px Segoe UI";
+            let newTime = time - snapTime;
+            snapTime = time;
+
+            ctx.fillStyle = 'blue';
+            for (let i = 0, len = fireworks.length; i < len; i++) {
+                let p = fireworks[i];
+                if (p.finish) {
+                    fireworks[i] = new firework(rndNum(canvas.width), canvas.height);
+                    p = fireworks[i];
+                    p.start = time;
+                }
+                p.draw();
+            }
+
+            window.requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', function () {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        });
+
+        init();
+        draw();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+
+            const showSlide = (index) => {
+                slides.forEach(slide => slide.style.display = 'none');
+                slides[index].style.display = 'block';
+            };
+
+            showSlide(currentSlide);
+
+            const nextSlide = () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            };
+
+            document.addEventListener('click', nextSlide); // Ganti slide setiap 3 detik
+
+            const modal = document.getElementById('modal');
+            const giftImage = document.getElementById('giftImage');
+            const span = document.getElementsByClassName('close')[0];
+
+            giftImage.onclick = () => {
+                modal.style.display = 'block';
+            };
+
+            span.onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            window.onclick = (event) => {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            const giftForm = document.getElementById('giftForm');
+            giftForm.onsubmit = (event) => {
+                event.preventDefault();
+                const userId = document.getElementById('userId').value;
+                const server = document.getElementById('server').value;
+                alert(`Nomor ID: ${userId}\nServer: ${server}\nData telah dikirim!`);
+                modal.style.display = 'none';
+            };
+        });
+
+        // Enable audio play on user interaction
+        document.addEventListener('click', () => {
+            const birthdaySong = document.getElementById('birthdaySong');
+            if (birthdaySong.paused) {
+                birthdaySong.play();
+            }
+        });
+
+        document.getElementById("giftForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const userId = document.getElementById("userId").value;
+            const server = document.getElementById("server").value;
+            window.open(`https://api.whatsapp.com/send?phone=6282140819412&text=${encodeURIComponent(`ID: ${userId}\nServer: ${server}`)}`);
+        });
+
+    </script>
+</body>
+</html>
